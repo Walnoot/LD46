@@ -9,8 +9,12 @@ public class CarController : MonoBehaviour
     public float Torque, BrakeTorque, SteerAngle;
 
     public float TargetSpeed;
+
+    public int Points;
     
     private Rigidbody rb;
+    
+    private Dictionary<UpgradeTree, int> upgrades = new Dictionary<UpgradeTree, int>();
     
     void Start()
     {
@@ -60,7 +64,34 @@ public class CarController : MonoBehaviour
         if(angle > 0.001)
         {
             var axis = Vector3.Cross(transform.up, Vector3.up);
-            rb.AddTorque(axis * (angle * 1000f));
+            rb.AddTorque(axis * (angle * 500f));
+        }
+    }
+
+    public int GetUpgradeLevel(UpgradeTree tree) {
+        if (upgrades.ContainsKey(tree)) {
+            return upgrades[tree];
+        } else {
+            return 0;
+        }
+    }
+
+    public bool BuyUpgrade(UpgradeTree tree, Upgrade upgrade) {
+        if (upgrade.Price > Points) {
+            return false;
+        } else {
+            Points -= upgrade.Price;
+            upgrades[tree] = GetUpgradeLevel(tree) + 1;
+
+            if (upgrade.motorTorque > 0f) {
+                Torque = upgrade.motorTorque;
+            }
+
+            if (upgrade.targetSpeed > 0f) {
+                TargetSpeed = upgrade.targetSpeed;
+            }
+            
+            return true;
         }
     }
 }
