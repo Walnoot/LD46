@@ -13,11 +13,17 @@ public class CarController : MonoBehaviour
 
     public int Points;
 
+    public GameObject bulletPrefab;
+    
+    public float bulletsPerSecond, bulletSpeed;
+
     public List<TrailRenderer> trails;
     
     private Rigidbody rb;
     
     private Dictionary<UpgradeTree, int> upgrades = new Dictionary<UpgradeTree, int>();
+
+    private float shootTimer;
     
     void Start()
     {
@@ -74,6 +80,20 @@ public class CarController : MonoBehaviour
 
         foreach (var trail in trails) {
             trail.emitting = emitTrails;
+        }
+
+        if (bulletsPerSecond > 0f) {
+            shootTimer -= Time.fixedDeltaTime;
+            
+            float dt = 1f / bulletsPerSecond;
+            if (Input.GetButton("Fire") && shootTimer < 0f) {
+                shootTimer = dt;
+
+                var bullet = Instantiate(bulletPrefab, transform.position, Quaternion.identity);
+                bullet.GetComponent<Rigidbody>().velocity = transform.forward * bulletSpeed;
+                
+                Destroy(bullet, 10f);
+            }
         }
     }
 
