@@ -7,16 +7,29 @@ public class Mob : MonoBehaviour
 
 	enum State {
 		Idle,
-		Avoid,
+		Dodge,
 		MoveToTarget,
 		Igniting,
 		Dead
 	} 
 	State state;
+
+	public bool hasCapabilityDodge = true;
+	public float dodgeTriggerArea = 4f; //Distance to player
+	public float dodgeSpeedMultiplier = 2f; 
+	public float dodgeRotationSpeedMultiplier = 3f; 
+	public float dodgeTime = 2f; // How long dodge lasts
+	public float dodgeTimeout = 4f; // Desired time between dodges 
+	private float dodgeTimeRemaining = 0f; 
+	private float dodgeTimeoutRemaining = 2f;
+
+	public bool hasCapabilityFlee = false;
+
 	private Rigidbody body;
     private float speed = 100.0f;
-    private float rotationSpeed = 2f;
+    private float rotationSpeed = 1f;
     private GameObject target;
+    private GameObject dodgeObject;
 
     // Start is called before the first frame update
     void Start()
@@ -39,17 +52,71 @@ public class Mob : MonoBehaviour
     			}
     			break;
     		} case(State.MoveToTarget):{
+    			this.dodgeObject = checkDodgeableObject();
+    			if(this.dodgeObject != null) {
+    				this.dodgeTimeRemaining = dodgeTime;
+	    			this.state = State.Dodge;
+    				break;
+    			}
     			if(target != null) {
     				Vector3 targetDir = target.transform.position - body.position;
-    				targetDir.y = 0;;
-    				// float targetAngle = Vector3.SignedAngle(targetDir, transform.forward, Vector3.up);
+    				targetDir.y = 0;
     				Quaternion targetRotation = Quaternion.LookRotation(targetDir);
-    				body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * 1);
-					body.velocity = (transform.forward) * speed * Time.fixedDeltaTime;	
+    				body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+					body.velocity = transform.forward * speed * Time.fixedDeltaTime;	
     			}
+    			break;
+    		} case(State.Dodge):{
+    			if(dodgeTimeRemaining > 0){
+    				dodgeTimeRemaining -= Time.deltaTime;
+    				Vector3 targetDir = dodgeObject.transform.position - body.position;
+    				// Flip 
+    				targetDir.x = -targetDir.x;
+    				targetDir.z = -targetDir.z;
+    				targetDir.y = 0;
+    				Quaternion targetRotation = Quaternion.LookRotation(targetDir);
+    				body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed * dodgeRotationSpeedMultiplier);
+					body.velocity = transform.forward * speed * dodgeSpeedMultiplier * Time.fixedDeltaTime;	
+    			}else{
+    				this.dodgeTimeoutRemaining = dodgeTimeout;
+    				this.dodgeObject = null;
+    				this.state = State.MoveToTarget;
+    			}
+    			break;
+    		} 
+			case(State.Igniting):{
+    			break;
+    		} case(State.Dead): {
+    			var rotation = body.rotation;
+    			rotation.x = 90;
+    			body.rotation = rotation;
     			break;
     		}
     	}
+    }
+
+    GameObject checkDodgeableObject() {
+    	if(hasCapabilityDodge) {
+    		if(dodgeTimeoutRemaining > 0){
+    			dodgeTimeoutRemaining -= Time.deltaTime;
+    			return null;
+    		}
+    		if(dodgeObject != null){
+    			return dodgeObject;
+    		}
+			var foundCanvasObjects = GameObject.FindGameObjectsWithTag("MobAvoid");
+			foreach(var obj in foundCanvasObjects) {
+				float dst = Vector3.Distance(obj.transform.position, body.position);
+				Debug.Log(dst);
+				Debug.Log(dodgeTriggerArea);
+				// Debug.Log(obj.transform.position);
+				// Debug.Log(body.position);
+				if(dst < dodgeTriggerArea) {
+					return obj;
+				}
+			}	
+    	}
+    	return null;
     }
 
 }
