@@ -109,13 +109,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7793fc911a43a24fba2d31e2ee1a60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  hasCapabilityDodge: 1
+  hasCapabilityDodge: 0
   dodgeTriggerArea: 5
   dodgeSpeedMultiplier: 4
   dodgeRotationSpeedMultiplier: 6
   dodgeTime: 2
   dodgeTimeout: 1.5
-  hasCapabilityFlee: 0
+  deathEffect: {fileID: 4465503948697864064, guid: 1749f6df2e50e0da485166d060fec8fb,
+    type: 3}
+  PointPrefab: {fileID: 8524425848742108125, guid: 438b15f2e279950a0a762ffb96bda537,
+    type: 3}
 --- !u!54 &9222402113266174743
 Rigidbody:
   m_ObjectHideFlags: 0

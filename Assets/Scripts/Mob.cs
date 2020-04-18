@@ -20,17 +20,20 @@ public class Mob : MonoBehaviour
 	public float dodgeRotationSpeedMultiplier = 3f; 
 	public float dodgeTime = 2f; // How long dodge lasts
 	public float dodgeTimeout = 4f; // Desired time between dodges 
+
+	public GameObject deathEffect;
+
+	public GameObject PointPrefab;
+	
 	private float dodgeTimeRemaining = 0f; 
 	private float dodgeTimeoutRemaining = 2f;
-
-	public bool hasCapabilityFlee = false;
 
 	private Rigidbody body;
     private float speed = 100.0f;
     private float rotationSpeed = 1f;
     private GameObject target;
     private GameObject dodgeObject;
-
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -66,7 +69,7 @@ public class Mob : MonoBehaviour
 					body.velocity = transform.forward * speed * Time.fixedDeltaTime;	
     			}
     			break;
-    		} case(State.Dodge):{
+    		} case(State.Dodge) : {
     			if(dodgeTimeRemaining > 0){
     				dodgeTimeRemaining -= Time.deltaTime;
     				Vector3 targetDir = dodgeObject.transform.position - body.position;
@@ -84,7 +87,7 @@ public class Mob : MonoBehaviour
     			}
     			break;
     		} 
-			case(State.Igniting):{
+			case(State.Igniting) : {
     			break;
     		} case(State.Dead): {
     			this.transform.rotation = new Quaternion(80,30, 80, 1);
@@ -117,11 +120,27 @@ public class Mob : MonoBehaviour
 
     void OnCollisionEnter(Collision collision)
     {
-    	Debug.Log("COLLIDE!"+collision.gameObject.name);
-        if (collision.gameObject.name == "Car")
+        if (enabled && collision.gameObject.GetComponent<CarController>() != null)
         {
         	this.state = State.Dead;
-        	return;
+            body.constraints = RigidbodyConstraints.None;
+            enabled = false;
+
+            if (deathEffect != null) {
+	            Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
+            }
+            
+            Destroy(gameObject, 60f);
+
+            int numPoints = Random.Range(1, 3);
+            for (int i = 0; i < numPoints; i++) {
+	            var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
+
+	            float r = 1f;
+	            point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
+	            
+	            Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
+            }
         }
     }
 
