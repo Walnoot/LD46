@@ -115,7 +115,10 @@ MonoBehaviour:
   dodgeRotationSpeedMultiplier: 6
   dodgeTime: 2
   dodgeTimeout: 1.5
-  hasCapabilityFlee: 0
+  deathEffect: {fileID: 4465503948697864064, guid: 1749f6df2e50e0da485166d060fec8fb,
+    type: 3}
+  PointPrefab: {fileID: 8524425848742108125, guid: 438b15f2e279950a0a762ffb96bda537,
+    type: 3}
 --- !u!54 &9222402113266174743
 Rigidbody:
   m_ObjectHideFlags: 0

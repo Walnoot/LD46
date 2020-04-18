@@ -19,7 +19,7 @@ public class Spawner : MonoBehaviour
 
 	}
 
-	public void spawnRectangle(int rows, int columns, int max, GameObject template) {
+	public int spawnRectangle(int rows, int columns, int max, GameObject template) {
 		Vector3 startPos = transform.position;
 		int spawned = 0;
 		for (int r = 0; r < rows; r++) 
@@ -34,5 +34,7 @@ public class Spawner : MonoBehaviour
 				spawned ++;
 			}
 		}
+
+		return spawned;
 	}
 }

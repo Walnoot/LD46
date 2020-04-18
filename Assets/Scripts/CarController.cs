@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Animations;
@@ -39,7 +40,7 @@ public class CarController : MonoBehaviour
 
         bool isControlling = Mathf.Abs(acceleration) > .1f || Mathf.Abs(steering) > .1f;
         // bool isBreaking = !isControlling || (Mathf.Abs(acceleration) > .1f && ((acceleration > 0f) != (speed > 0f)));
-        bool isBraking = Mathf.Abs(acceleration) > .1f && ((acceleration > 0f) != (speed > 0f));
+        bool isBraking = Mathf.Abs(acceleration) > .1f && Mathf.Abs(speed) > .1f && ((acceleration > 0f) != (speed > 0f));
 
         float absSpeed = Mathf.Abs(speed);
 
