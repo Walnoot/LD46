@@ -87,9 +87,9 @@ public class Mob : MonoBehaviour
 			case(State.Igniting):{
     			break;
     		} case(State.Dead): {
-    			var rotation = body.rotation;
-    			rotation.x = 90;
-    			body.rotation = rotation;
+    			this.transform.rotation = new Quaternion(80,30, 80, 1);
+    			Destroy(body);
+    			Destroy(this);
     			break;
     		}
     	}
@@ -107,16 +107,22 @@ public class Mob : MonoBehaviour
 			var foundCanvasObjects = GameObject.FindGameObjectsWithTag("MobAvoid");
 			foreach(var obj in foundCanvasObjects) {
 				float dst = Vector3.Distance(obj.transform.position, body.position);
-				Debug.Log(dst);
-				Debug.Log(dodgeTriggerArea);
-				// Debug.Log(obj.transform.position);
-				// Debug.Log(body.position);
 				if(dst < dodgeTriggerArea) {
 					return obj;
 				}
 			}	
     	}
     	return null;
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+    	Debug.Log("COLLIDE!"+collision.gameObject.name);
+        if (collision.gameObject.name == "Car")
+        {
+        	this.state = State.Dead;
+        	return;
+        }
     }
 
 }
