@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Animations;
 
 public class CarController : MonoBehaviour
 {
@@ -69,7 +70,7 @@ public class CarController : MonoBehaviour
             rb.AddTorque(axis * (angle * 500f));
         }
 
-        bool emitTrails = isBraking || rb.angularVelocity.magnitude > 3f && RearLeft.isGrounded && RearRight.isGrounded;
+        bool emitTrails = (isBraking || rb.angularVelocity.magnitude > 3f) && RearLeft.isGrounded && RearRight.isGrounded;
 
         foreach (var trail in trails) {
             trail.emitting = emitTrails;
