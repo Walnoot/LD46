@@ -23,8 +23,6 @@ public class Mob : MonoBehaviour
 	private float dodgeTimeRemaining = 0f; 
 	private float dodgeTimeoutRemaining = 2f;
 
-	public bool hasCapabilityFlee = false;
-
 	private Rigidbody body;
     private float speed = 100.0f;
     private float rotationSpeed = 1f;
@@ -66,7 +64,7 @@ public class Mob : MonoBehaviour
 					body.velocity = transform.forward * speed * Time.fixedDeltaTime;	
     			}
     			break;
-    		} case(State.Dodge):{
+    		} case(State.Dodge) : {
     			if(dodgeTimeRemaining > 0){
     				dodgeTimeRemaining -= Time.deltaTime;
     				Vector3 targetDir = dodgeObject.transform.position - body.position;
@@ -84,7 +82,7 @@ public class Mob : MonoBehaviour
     			}
     			break;
     		} 
-			case(State.Igniting):{
+			case(State.Igniting) : {
     			break;
     		} case(State.Dead): {
     			this.transform.rotation = new Quaternion(80,30, 80, 1);
