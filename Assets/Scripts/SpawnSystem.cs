@@ -35,7 +35,7 @@ public class SpawnSystem : MonoBehaviour
 	    bool done = true;
 
 	    foreach (var mob in mobs) {
-		    if (mob == null || mob.enabled) {
+		    if (!(mob == null || !mob.enabled)) {
 			    done = false;
 		    }
 	    }
