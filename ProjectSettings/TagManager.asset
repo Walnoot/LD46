@@ -6,6 +6,7 @@ TagManager:
   tags:
   - MobTarget
   - MobAvoid
+  - Boundary
   layers:
   - Default
   - TransparentFX
