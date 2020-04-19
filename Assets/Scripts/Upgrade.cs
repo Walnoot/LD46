@@ -10,4 +10,7 @@ public class Upgrade : ScriptableObject {
 
     public float motorTorque;
     public float targetSpeed;
+    
+    public float boostInterval;
+    public float boostSpeed;
 }
