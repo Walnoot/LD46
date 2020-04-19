@@ -44,7 +44,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   wave: 0
-  running: 0
-  mobTypes:
-  - {fileID: 9222402113266174749, guid: 58df1c08295742b49aa51ab2ea57f1d9, type: 3}
-  - {fileID: 0}
+  mobBasic: {fileID: 9222402113266174749, guid: 58df1c08295742b49aa51ab2ea57f1d9,
+    type: 3}
+  mobFarWanderer: {fileID: 8052551848897485410, guid: 76cfdd46e067b314c9159c4b15c7fcd0,
+    type: 3}
+  mobDodge: {fileID: 9222402113266174749, guid: bd2cccc0ad1c8084f920d0cf09a7b8cc,
+    type: 3}
+  mobFastWanderer: {fileID: 6738000417162958038, guid: 2846482de45413142a2c8bc94c2b2832,
+    type: 3}
