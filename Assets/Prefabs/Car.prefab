@@ -5593,16 +5593,16 @@ WheelCollider:
   m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 2
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 2
+    m_AsymptoteValue: 1.5
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &6865790849039005403
 GameObject:
@@ -5934,16 +5934,16 @@ WheelCollider:
   m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 2
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 2
+    m_AsymptoteValue: 1.5
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &6865790849756109246
 GameObject:
@@ -5995,16 +5995,16 @@ WheelCollider:
   m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 2
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 2
+    m_AsymptoteValue: 1.5
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &6865790849846001736
 GameObject:
@@ -6056,16 +6056,16 @@ WheelCollider:
   m_WheelDampingRate: 5
   m_ForwardFriction:
     m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 2
+    m_AsymptoteValue: 1
+    m_Stiffness: 1
   m_SidewaysFriction:
     m_ExtremumSlip: 0.2
-    m_ExtremumValue: 1
+    m_ExtremumValue: 2
     m_AsymptoteSlip: 0.5
-    m_AsymptoteValue: 0.75
-    m_Stiffness: 2
+    m_AsymptoteValue: 1.5
+    m_Stiffness: 1
   m_Enabled: 1
 --- !u!1 &6865790850796033830
 GameObject:

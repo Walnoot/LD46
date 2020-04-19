@@ -36,7 +36,7 @@ public class UpgradeDialog : MonoBehaviour {
                 int level = car.GetUpgradeLevel(tree);
                 bool canBuy = i == level;
 
-                string text = i >= level ? upgrade.name + "\n" + upgrade.Price.ToString() : upgrade.name;
+                string text = i >= level ? upgrade.name + "\n♦" + upgrade.Price.ToString() : upgrade.name;
                 button.GetComponentInChildren<Text>().text = text;
 
                 Button b = button.GetComponent<Button>();
@@ -44,8 +44,6 @@ public class UpgradeDialog : MonoBehaviour {
 
                 if (canBuy) {
                     b.onClick.AddListener(() => {
-                        Debug.Log("click button " + upgrade);
-                        
                         if (car.BuyUpgrade(tree, upgrade)) {
                             foreach (var element in uiElements) {
                                 Destroy(element);

@@ -13,4 +13,8 @@ public class Upgrade : ScriptableObject {
     
     public float boostInterval;
     public float boostSpeed;
+
+    public float steerAngle;
+
+    public float gripMultiplier;
 }
