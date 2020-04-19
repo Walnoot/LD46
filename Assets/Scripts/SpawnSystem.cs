@@ -12,6 +12,7 @@ public class SpawnSystem : MonoBehaviour
 
 	private float MIN_TIME_BETWEEN_SPAWNS = 5.0f;
 	private float spawnTimer = 0f;
+	private int spawnsLeft;
 
 	public GameObject[] mobTypes;
 
@@ -52,7 +53,7 @@ public class SpawnSystem : MonoBehaviour
 
     void startNewWave(){
         wave ++;
-        int spawnsLeft = (int) Math.Pow(1.5, wave);
+        this.spawnsLeft = (int) Math.Pow(1.5, wave);
         Debug.Log("startNewWave"+wave);
 
         while (spawnsLeft > 0) {
@@ -71,5 +72,9 @@ public class SpawnSystem : MonoBehaviour
 	    int rows = UnityEngine.Random.Range(1,3);
 	    int columns = UnityEngine.Random.Range(1,3);
 	    return spawner.spawnRectangle(rows, columns, max, mobType);
+    }
+
+    public float getSpawnsLeft() {
+    	return this.spawnsLeft;
     }
 }

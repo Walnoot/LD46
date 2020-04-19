@@ -203,6 +203,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7793fc911a43a24fba2d31e2ee1a60b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackTimeout: 0.7
+  attackDamage: 2
+  distanceAttack: 3
   hasCapabilityDodge: 1
   dodgeTriggerArea: 5
   dodgeSpeedMultiplier: 4

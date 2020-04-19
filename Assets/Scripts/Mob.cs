@@ -14,20 +14,27 @@ public class Mob : MonoBehaviour
 	} 
 	State state;
 
+	// ATTACK 
+	public float attackTimeout = 0.7f;
+	public int attackDamage = 1;
+	public float distanceAttack = 3f;
+	private float attackTimeoutRemaining = 0f;
+
+	// DODGE
 	public bool hasCapabilityDodge = true;
 	public float dodgeTriggerArea = 4f; //Distance to player
 	public float dodgeSpeedMultiplier = 2f; 
 	public float dodgeRotationSpeedMultiplier = 3f; 
 	public float dodgeTime = 2f; // How long dodge lasts
 	public float dodgeTimeout = 4f; // Desired time between dodges 
+	private float dodgeTimeRemaining = 0f; 
+	private float dodgeTimeoutRemaining = 2f;
+
 
 	public GameObject deathEffect;
 
 	public GameObject PointPrefab;
 	
-	private float dodgeTimeRemaining = 0f; 
-	private float dodgeTimeoutRemaining = 2f;
-
 	private Rigidbody body;
     private float speed = 100.0f;
     private float rotationSpeed = 1f;
@@ -62,6 +69,11 @@ public class Mob : MonoBehaviour
     				break;
     			}
     			if(target != null) {
+					float dst = Vector3.Distance(target.transform.position, body.position);
+					if(dst <= distanceAttack) {
+						state = State.Igniting;
+						break;
+					}
     				Vector3 targetDir = target.transform.position - body.position;
     				targetDir.y = 0;
     				Quaternion targetRotation = Quaternion.LookRotation(targetDir);
@@ -88,6 +100,19 @@ public class Mob : MonoBehaviour
     			break;
     		} 
 			case(State.Igniting) : {
+				RadioTower tower = target.GetComponent<RadioTower>();
+				Debug.Log("Igniting!");
+				if(tower == null){
+					break;
+				}
+				Debug.Log("Igniting2!");
+
+				attackTimeoutRemaining -= Time.deltaTime;
+				if(attackTimeoutRemaining <= 0){
+					Debug.Log("Igniting3!");
+					tower.hit(attackDamage);
+					attackTimeoutRemaining = attackTimeout;
+				}
     			break;
     		} case(State.Dead): {
     			this.transform.rotation = new Quaternion(80,30, 80, 1);
