@@ -29,6 +29,8 @@ public class CarController : MonoBehaviour
     private float lastBoostTime = -999;
 
     private ParticleSystem.MinMaxGradient normalExhaustColor;
+
+    private WheelCollider[] wheels;
     
     void Start()
     {
@@ -37,6 +39,8 @@ public class CarController : MonoBehaviour
         if (exhaustParticles != null) {
             normalExhaustColor = exhaustParticles.main.startColor;
         }
+        
+        wheels = new WheelCollider[] {FrontLeft, FrontRight, RearLeft, RearRight};
     }
 
     void FixedUpdate()
@@ -85,15 +89,11 @@ public class CarController : MonoBehaviour
         if (isBoosting) {
             rb.AddForce(transform.forward * 1000f);
         }
-        
-        FrontLeft.brakeTorque = brakeTorque;
-        FrontRight.brakeTorque = brakeTorque;
-        RearLeft.brakeTorque = brakeTorque;
-        RearRight.brakeTorque = brakeTorque;
-        FrontLeft.motorTorque = motorTorque;
-        FrontRight.motorTorque = motorTorque;
-        RearLeft.motorTorque = motorTorque;
-        RearRight.motorTorque = motorTorque;
+
+        foreach (var wheel in wheels) {
+            wheel.brakeTorque = brakeTorque;
+            wheel.motorTorque = motorTorque;
+        }
 
         FrontLeft.steerAngle = steering * SteerAngle;
         FrontRight.steerAngle = steering * SteerAngle;
@@ -148,6 +148,22 @@ public class CarController : MonoBehaviour
 
             if (upgrade.boostSpeed > 0f) {
                 boostSpeed = upgrade.boostSpeed;
+            }
+
+            if (upgrade.steerAngle > 0f) {
+                SteerAngle = upgrade.steerAngle;
+            }
+
+            if (upgrade.gripMultiplier > 0f) {
+                foreach (var wheel in wheels) {
+                    var fwdFriction = wheel.forwardFriction;
+                    fwdFriction.stiffness = upgrade.gripMultiplier;
+                    wheel.forwardFriction = fwdFriction;
+                    
+                    var sideFriction = wheel.sidewaysFriction;
+                    sideFriction.stiffness = upgrade.gripMultiplier;
+                    wheel.sidewaysFriction = sideFriction;
+                }
             }
             
             return true;

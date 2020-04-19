@@ -7,5 +7,6 @@ public class UIState : MonoBehaviour {
     
     void Update() {
         Time.timeScale = upgradeDialog.activeSelf ? 0f : 1f;
+        AudioListener.pause = upgradeDialog.activeSelf;
     }
 }
