@@ -208,30 +208,32 @@ public class Mob : MonoBehaviour
     }
 
     public void die() {
-		this.state = State.Dead;
-        body.constraints = RigidbodyConstraints.None;
-        enabled = false;
+	    if (enabled) {
+		    this.state = State.Dead;
+		    body.constraints = RigidbodyConstraints.None;
+		    enabled = false;
 
-        if (deathEffect != null) {
-            Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
-        }
+		    if (deathEffect != null) {
+			    Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
+		    }
         
-        Destroy(gameObject, 60f);
+		    Destroy(gameObject, 60f);
 
-        int numPoints = Random.Range(1, 3);
-        for (int i = 0; i < numPoints; i++) {
-            var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
+		    int numPoints = Random.Range(1, 3);
+		    for (int i = 0; i < numPoints; i++) {
+			    var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
 
-            float r = 1f;
-            point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
+			    float r = 1f;
+			    point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
             
-            Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
-        }
+			    Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
+		    }
         
-        if (killSoundPrefab != null) {
-	        var sound = Instantiate(killSoundPrefab, transform.position, Quaternion.identity);
-	        Destroy(sound, 2f);
-        }
+		    if (killSoundPrefab != null) {
+			    var sound = Instantiate(killSoundPrefab, transform.position, Quaternion.identity);
+			    Destroy(sound, 2f);
+		    }
+	    }
     }
 
 }
