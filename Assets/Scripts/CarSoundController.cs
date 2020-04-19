@@ -32,7 +32,10 @@ public class CarSoundController : MonoBehaviour {
         engineAudio.pitch = idlePitch + blend;
 
         float speed = rb.velocity.magnitude;
-        float targetBrakeVolume = wheel.brakeTorque > 0f ? speed / brakeVolumeOverSpeed : 0f;
+
+        bool playBrake = rb.angularVelocity.magnitude > 3f || wheel.brakeTorque > 0f;
+        
+        float targetBrakeVolume = playBrake ? speed / brakeVolumeOverSpeed : 0f;
         brakeVolume += (targetBrakeVolume - brakeVolume) * Time.deltaTime * 10f;
         brakeAudio.volume = brakeVolume;
     }
