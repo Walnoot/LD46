@@ -17,9 +17,10 @@ public class WaveLabel : MonoBehaviour {
     {
         if (spawnSystem != null) {
             var wave = spawnSystem.wave;
-            var spawnsLeft = spawnSystem.getSpawnsLeft();
+            var left = spawnSystem.getCountMobsAlive();
+            var total = spawnSystem.getCountMobsTotal();
             var newText = " ~ Wave: " + wave 
-                      + "\n < Spawns Left: " + spawnsLeft;
+                      + "\n < Left: " + left + " / " +total;
             text.text = newText;
         }
     }

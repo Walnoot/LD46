@@ -64,6 +64,10 @@ public class Mob : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+    	if(isOutOfBounds()){
+    		Debug.Log("Mob IsOutOfBounds." + body.position);
+    		die();
+    	}
     	switch(state) {
     		case(State.Idle):{
     			if(hasCapabilityWander && wanderingsLeft > 0 && wanderRange > 1) {
@@ -89,7 +93,7 @@ public class Mob : MonoBehaviour
 						break;
 					}
 					float dst = Vector3.Distance(wanderGoal, body.position);
-					if ( dst <= 1f) {
+					if ( dst <= 2f) {
 						state = State.Idle;
 						break;
 					}
@@ -151,12 +155,14 @@ public class Mob : MonoBehaviour
     	}
     }
 
-    void walkTowards(Vector3 goal){
+    void walkTowards(Vector3 goal) {
     	Vector3 targetDir = goal - body.position;
 		targetDir.y = 0;
 		Quaternion targetRotation = Quaternion.LookRotation(targetDir);
 		body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-		body.velocity = transform.forward * speed * Time.fixedDeltaTime;	
+		var vel = transform.forward * speed * Time.fixedDeltaTime;
+		vel.y = body.velocity.y;
+		body.velocity = vel;	
     }
 
     bool tryDodgeTransition () {
@@ -193,25 +199,33 @@ public class Mob : MonoBehaviour
     {
         if (enabled && collision.gameObject.GetComponent<CarController>() != null)
         {
-        	this.state = State.Dead;
-            body.constraints = RigidbodyConstraints.None;
-            enabled = false;
+        	die();
+        }
+    }
 
-            if (deathEffect != null) {
-	            Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
-            }
+    bool isOutOfBounds () {
+    	return body.position.y < -1.0f || body.position.y > 10.0f;
+    }
+
+    public void die() {
+		this.state = State.Dead;
+        body.constraints = RigidbodyConstraints.None;
+        enabled = false;
+
+        if (deathEffect != null) {
+            Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
+        }
+        
+        Destroy(gameObject, 60f);
+
+        int numPoints = Random.Range(1, 3);
+        for (int i = 0; i < numPoints; i++) {
+            var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
+
+            float r = 1f;
+            point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
             
-            Destroy(gameObject, 60f);
-
-            int numPoints = Random.Range(1, 3);
-            for (int i = 0; i < numPoints; i++) {
-	            var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
-
-	            float r = 1f;
-	            point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
-	            
-	            Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
-            }
+            Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
         }
     }
 
