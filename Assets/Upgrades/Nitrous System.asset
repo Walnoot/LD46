@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: b26f75821eebee753a58f33f6377abb3, type: 3}
-  m_Name: Guns
+  m_Name: Nitrous System
   m_EditorClassIdentifier: 
   Upgrades:
   - {fileID: 11400000, guid: 59cb8027b94fc794b9fd970930f597c3, type: 2}
+  - {fileID: 11400000, guid: c5a471233311a6d249cc29218d47ab75, type: 2}
   - {fileID: 11400000, guid: c7fd3e97fe71b342d94794e343d4d6a6, type: 2}
-  - {fileID: 11400000, guid: 87bf0f426809738769c626fe0938700d, type: 2}
