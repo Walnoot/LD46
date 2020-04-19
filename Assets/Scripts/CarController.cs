@@ -59,8 +59,6 @@ public class CarController : MonoBehaviour
 
         bool isBoosting = timeSinceBoost <= boostTime;
         
-        Debug.Log(isBoosting);
-        
         float speed = Vector3.Dot(transform.forward, rb.velocity);
 
         bool isControlling = Mathf.Abs(acceleration) > .1f || Mathf.Abs(steering) > .1f;
