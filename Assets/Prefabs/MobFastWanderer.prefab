@@ -92,6 +92,12 @@ PrefabInstance:
       propertyPath: hasCapabilityWander
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 9222402113266174742, guid: 58df1c08295742b49aa51ab2ea57f1d9,
+        type: 3}
+      propertyPath: killSoundPrefab
+      value: 
+      objectReference: {fileID: 7638478672894895415, guid: afc5d95210360a08eac87527384d5fe8,
+        type: 3}
     - target: {fileID: 9222402113266174749, guid: 58df1c08295742b49aa51ab2ea57f1d9,
         type: 3}
       propertyPath: m_Name

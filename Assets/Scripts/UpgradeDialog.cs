@@ -44,6 +44,8 @@ public class UpgradeDialog : MonoBehaviour {
 
                 if (canBuy) {
                     b.onClick.AddListener(() => {
+                        Debug.Log("click button " + upgrade);
+                        
                         if (car.BuyUpgrade(tree, upgrade)) {
                             foreach (var element in uiElements) {
                                 Destroy(element);

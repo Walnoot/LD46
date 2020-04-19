@@ -222,6 +222,8 @@ MonoBehaviour:
     type: 3}
   PointPrefab: {fileID: 8524425848742108125, guid: 438b15f2e279950a0a762ffb96bda537,
     type: 3}
+  killSoundPrefab: {fileID: 7638478672894895415, guid: afc5d95210360a08eac87527384d5fe8,
+    type: 3}
   speed: 80
   rotationSpeed: 1
 --- !u!54 &9222402113266174743

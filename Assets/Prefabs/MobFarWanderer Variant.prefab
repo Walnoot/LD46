@@ -10,7 +10,7 @@ PrefabInstance:
     - target: {fileID: 6738000417162958038, guid: 2846482de45413142a2c8bc94c2b2832,
         type: 3}
       propertyPath: m_Name
-      value: MobFarWanderer
+      value: MobFarWanderer Variant
       objectReference: {fileID: 0}
     - target: {fileID: 6738000417162958042, guid: 2846482de45413142a2c8bc94c2b2832,
         type: 3}
@@ -102,5 +102,11 @@ PrefabInstance:
       propertyPath: speed
       value: 100
       objectReference: {fileID: 0}
+    - target: {fileID: 6738000417162958045, guid: 2846482de45413142a2c8bc94c2b2832,
+        type: 3}
+      propertyPath: killSoundPrefab
+      value: 
+      objectReference: {fileID: 7638478672894895415, guid: afc5d95210360a08eac87527384d5fe8,
+        type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2846482de45413142a2c8bc94c2b2832, type: 3}

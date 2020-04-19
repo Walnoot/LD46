@@ -41,7 +41,7 @@ public class Mob : MonoBehaviour
 
 	public GameObject deathEffect;
 
-	public GameObject PointPrefab;
+	public GameObject PointPrefab, killSoundPrefab;
 
     public float speed = 100.0f;
     public float rotationSpeed = 1f;
@@ -211,6 +211,11 @@ public class Mob : MonoBehaviour
 	            point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
 	            
 	            Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
+            }
+
+            if (killSoundPrefab != null) {
+	            var sound = Instantiate(killSoundPrefab, transform.position, Quaternion.identity);
+	            Destroy(sound, 2f);
             }
         }
     }
