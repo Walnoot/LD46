@@ -8,65 +8,109 @@ public class Mob : MonoBehaviour
 	enum State {
 		Idle,
 		Dodge,
-		MoveToTarget,
+		MoveToTower,
+		Wandering,
 		Igniting,
 		Dead
 	} 
 	State state;
 
+	// ATTACK 
+	public float attackTimeout = 0.7f;
+	public int attackDamage = 1;
+	public float distanceAttack = 3f;
+	private float attackTimeoutRemaining = 0f;
+
+	// DODGE
 	public bool hasCapabilityDodge = true;
 	public float dodgeTriggerArea = 4f; //Distance to player
 	public float dodgeSpeedMultiplier = 2f; 
 	public float dodgeRotationSpeedMultiplier = 3f; 
 	public float dodgeTime = 2f; // How long dodge lasts
 	public float dodgeTimeout = 4f; // Desired time between dodges 
-
-	public GameObject deathEffect;
-
-	public GameObject PointPrefab;
-	
 	private float dodgeTimeRemaining = 0f; 
 	private float dodgeTimeoutRemaining = 2f;
 
+	// WANDER
+	public bool hasCapabilityWander = true;
+	public float wanderMaxDuration = 5.0f; // max duration to reach a wanderGoal
+	public int wanderingsLeft = 4; // how many times to pick a new wanderGoal
+	public float wanderRange = 8; // how far to pick new wanderGoal
+	/*private*/public float wanderTimeleft = 0f;
+	/*private*/public Vector3 wanderGoal;
+
+	public GameObject deathEffect;
+
+	public GameObject PointPrefab, killSoundPrefab;
+
+    public float speed = 100.0f;
+    public float rotationSpeed = 1f;
+
 	private Rigidbody body;
-    private float speed = 100.0f;
-    private float rotationSpeed = 1f;
-    private GameObject target;
+    private GameObject tower;
     private GameObject dodgeObject;
     
     // Start is called before the first frame update
     void Start()
     {
         body = GetComponent<Rigidbody>();
-        target = null; //new Vector3(0,0,0);
         state = State.Idle;
+		var towers = GameObject.FindGameObjectsWithTag("MobTarget");
+		if(towers.Length > 0) {
+			this.tower = towers[0];
+		}
     }
 
     // Update is called once per frame
     void Update()
     {
+    	if(isOutOfBounds()){
+    		Debug.Log("Mob IsOutOfBounds." + body.position);
+    		die();
+    	}
     	switch(state) {
     		case(State.Idle):{
-    			var foundCanvasObjects = GameObject.FindGameObjectsWithTag("MobTarget");
-    			if(foundCanvasObjects.Length > 0) {
-	    			var target = foundCanvasObjects[0];
-	    			this.target = target;
-	    			state = State.MoveToTarget;
+    			if(hasCapabilityWander && wanderingsLeft > 0 && wanderRange > 1) {
+					wanderingsLeft --;
+					var offset = new Vector3 (Random.Range(-wanderRange, wanderRange), 0, Random.Range(-wanderRange, wanderRange));
+					wanderGoal = body.position + offset;
+					// TODO: clamp to map bounds
+					wanderTimeleft = wanderMaxDuration;
+					state = State.Wandering;
+					break;
+    			} else {
+    				state = State.MoveToTower;
     			}
     			break;
-    		} case(State.MoveToTarget):{
-    			this.dodgeObject = checkDodgeableObject();
-    			if(this.dodgeObject != null) {
-    				this.dodgeTimeRemaining = dodgeTime;
-	    			this.state = State.Dodge;
-    				break;
-    			}
-    			if(target != null) {
-    				Vector3 targetDir = target.transform.position - body.position;
-    				targetDir.y = 0;
-    				Quaternion targetRotation = Quaternion.LookRotation(targetDir);
-    				body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-					body.velocity = transform.forward * speed * Time.fixedDeltaTime;	
+			} case(State.Wandering) : {
+				if(tryDodgeTransition()){
+					break;
+				}
+				if(wanderGoal != null) {
+					wanderTimeleft -= Time.deltaTime;
+					if(wanderTimeleft <= 0){
+						state = State.Idle;
+						break;
+					}
+					float dst = Vector3.Distance(wanderGoal, body.position);
+					if ( dst <= 2f) {
+						state = State.Idle;
+						break;
+					}
+					walkTowards(wanderGoal);
+				}
+				break;
+			} case(State.MoveToTower):{
+    			if(tryDodgeTransition()){
+					break;
+				}
+    			if(tower != null) {
+					float dst = Vector3.Distance(tower.transform.position, body.position);
+					if(dst <= distanceAttack) {
+						state = State.Igniting;
+						break;
+					}
+    				walkTowards(tower.transform.position);
     			}
     			break;
     		} case(State.Dodge) : {
@@ -83,11 +127,24 @@ public class Mob : MonoBehaviour
     			}else{
     				this.dodgeTimeoutRemaining = dodgeTimeout;
     				this.dodgeObject = null;
-    				this.state = State.MoveToTarget;
+    				this.state = State.Idle;
     			}
     			break;
     		} 
 			case(State.Igniting) : {
+				if(tryDodgeTransition()){
+					break;
+				}
+				RadioTower towerComponent = tower.GetComponent<RadioTower>();
+				if(towerComponent == null){
+					break;
+				}
+
+				attackTimeoutRemaining -= Time.deltaTime;
+				if(attackTimeoutRemaining <= 0){
+					towerComponent.hit(attackDamage);
+					attackTimeoutRemaining = attackTimeout;
+				}
     			break;
     		} case(State.Dead): {
     			this.transform.rotation = new Quaternion(80,30, 80, 1);
@@ -98,7 +155,27 @@ public class Mob : MonoBehaviour
     	}
     }
 
-    GameObject checkDodgeableObject() {
+    void walkTowards(Vector3 goal) {
+    	Vector3 targetDir = goal - body.position;
+		targetDir.y = 0;
+		Quaternion targetRotation = Quaternion.LookRotation(targetDir);
+		body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+		var vel = transform.forward * speed * Time.fixedDeltaTime;
+		vel.y = body.velocity.y;
+		body.velocity = vel;	
+    }
+
+    bool tryDodgeTransition () {
+    	this.dodgeObject = getDodgeableObject();
+		if(this.dodgeObject != null) {
+			this.dodgeTimeRemaining = dodgeTime;
+			this.state = State.Dodge;
+			return true;
+		}
+		return false;
+    }
+
+    GameObject getDodgeableObject() {
     	if(hasCapabilityDodge) {
     		if(dodgeTimeoutRemaining > 0){
     			dodgeTimeoutRemaining -= Time.deltaTime;
@@ -122,25 +199,38 @@ public class Mob : MonoBehaviour
     {
         if (enabled && collision.gameObject.GetComponent<CarController>() != null)
         {
-        	this.state = State.Dead;
-            body.constraints = RigidbodyConstraints.None;
-            enabled = false;
+        	die();
+        }
+    }
 
-            if (deathEffect != null) {
-	            Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
-            }
+    bool isOutOfBounds () {
+    	return body.position.y < -1.0f || body.position.y > 10.0f;
+    }
+
+    public void die() {
+		this.state = State.Dead;
+        body.constraints = RigidbodyConstraints.None;
+        enabled = false;
+
+        if (deathEffect != null) {
+            Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
+        }
+        
+        Destroy(gameObject, 60f);
+
+        int numPoints = Random.Range(1, 3);
+        for (int i = 0; i < numPoints; i++) {
+            var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
+
+            float r = 1f;
+            point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
             
-            Destroy(gameObject, 60f);
-
-            int numPoints = Random.Range(1, 3);
-            for (int i = 0; i < numPoints; i++) {
-	            var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
-
-	            float r = 1f;
-	            point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
-	            
-	            Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
-            }
+            Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
+        }
+        
+        if (killSoundPrefab != null) {
+	        var sound = Instantiate(killSoundPrefab, transform.position, Quaternion.identity);
+	        Destroy(sound, 2f);
         }
     }
 

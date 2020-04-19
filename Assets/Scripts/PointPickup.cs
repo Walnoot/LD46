@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class PointPickup : MonoBehaviour {
+    public GameObject pickupEffect;
+    
     private float startTime;
 
     void Start() {
@@ -17,6 +19,10 @@ public class PointPickup : MonoBehaviour {
             if (controller != null) {
                 controller.Points += 1;
                 Destroy(gameObject);
+
+                if (pickupEffect != null) {
+                    Instantiate(pickupEffect, transform.position, pickupEffect.transform.rotation);
+                }
             }
         }
     }

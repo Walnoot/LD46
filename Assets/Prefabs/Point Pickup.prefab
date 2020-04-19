@@ -103,7 +103,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8524425848742108125}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 20
   m_Drag: 1
   m_AngularDrag: 0.05
   m_UseGravity: 1
@@ -123,3 +123,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd7b0d0526b366e7bb0c4d362309964b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  pickupEffect: {fileID: 888844016522056901, guid: a62f14108701ecc2fa680be2768f5c7b,
+    type: 3}
