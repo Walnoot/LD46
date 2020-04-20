@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe04471cbc24fab60b74bd7fde2a54c2, type: 3}
   m_Name: Grippy Tires
   m_EditorClassIdentifier: 
-  Price: 10
+  Price: 20
   motorTorque: 0
   targetSpeed: 0
   boostInterval: 0

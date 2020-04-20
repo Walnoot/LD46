@@ -21,6 +21,9 @@ public class CarController : MonoBehaviour
     public ParticleSystem exhaustParticles;
 
     public ParticleSystem.MinMaxGradient boostExhaustColor;
+
+    [HideInInspector]
+    public bool isBoosting;
     
     private Rigidbody rb;
     
@@ -61,7 +64,7 @@ public class CarController : MonoBehaviour
             }
         }
 
-        bool isBoosting = timeSinceBoost <= boostTime;
+        isBoosting = timeSinceBoost <= boostTime;
         
         float speed = Vector3.Dot(transform.forward, rb.velocity);
 
