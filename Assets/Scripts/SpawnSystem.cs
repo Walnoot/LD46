@@ -67,16 +67,16 @@ public class SpawnSystem : MonoBehaviour
         //killAllMobs();
         switch(wave) {
     		case (0) :  { spawnsLeft = 0; break; }
-    		case (1)  : { spawnsLeft = 3; break; }
-    		case (2)  : { spawnsLeft = 6; break; }
-    		case (3)  : { spawnsLeft = 9; break; }
-    		case (4)  : { spawnsLeft = 10; break; }
-    		case (5)  : { spawnsLeft = 11; break; }
-    		case (6)  : { spawnsLeft = 12; break; }
-    		case (7)  : { spawnsLeft = 13; break; }
-    		case (8)  : { spawnsLeft = 14; break; }
-    		case (9)  : { spawnsLeft = 15; break; }
-    		case (10) : { spawnsLeft = 16; break; }
+    		case (1)  : { spawnsLeft = 6; break; }
+    		case (2)  : { spawnsLeft = 9; break; }
+    		case (3)  : { spawnsLeft = 12; break; }
+    		case (4)  : { spawnsLeft = 13; break; }
+    		case (5)  : { spawnsLeft = 14; break; }
+    		case (6)  : { spawnsLeft = 15; break; }
+    		case (7)  : { spawnsLeft = 16; break; }
+    		case (8)  : { spawnsLeft = 17; break; }
+    		case (9)  : { spawnsLeft = 18; break; }
+    		case (10) : { spawnsLeft = 19; break; }
     		default : {	spawnsLeft = (int) Math.Pow(1.6, wave); break;};
     	}
 

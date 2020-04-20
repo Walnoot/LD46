@@ -9,6 +9,9 @@ public class GameState : MonoBehaviour
 	public GameObject menu;
 	public GameObject ui;
 	public DayNightCycle dayNight;
+	public GameObject fog;
+	public GameObject menuMusic;
+	public GameObject gameMusic;
 
 	enum State {
 		menu,
@@ -37,7 +40,10 @@ public class GameState : MonoBehaviour
 					cut.target = playingCameraTarget;
 					dayNight.active = true;
 					dayNight.doSpawn();
+					fog.SetActive(true);
 					state = State.playing;
+					menuMusic.SetActive(false);
+					gameMusic.SetActive(true);
 				}
 				break;
 			}

@@ -41,7 +41,7 @@ public class DayNightCycle : MonoBehaviour
 				currentTimeOfDay = 0;
 			}
 
-			timerText.text = "Only " + Mathf.Round((24 - (currentTimeOfDay * 24))) + " hours untill new weirdos arrive. Protect your 5G tower!";
+			timerText.text = "Only " + Mathf.Round((24 - (currentTimeOfDay * 24))) + " hours untill new arsenists arrive. Keep your 5G tower alive!";
 		}
 	}
 
