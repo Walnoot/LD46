@@ -118,7 +118,7 @@ MonoBehaviour:
   dodgeTriggerArea: 10
   dodgeSpeedMultiplier: 4
   dodgeRotationSpeedMultiplier: 6
-  dodgeTime: 2
+  dodgeTime: 1.5
   dodgeTimeout: 0
   hasCapabilityWander: 0
   wanderMaxDuration: 5
@@ -756,12 +756,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef8b5f8817c235646a124430ba1102f0, type: 3}
---- !u!1 &922820241137145622 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: ef8b5f8817c235646a124430ba1102f0,
-    type: 3}
-  m_PrefabInstance: {fileID: 9218702448930737695}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3795811142133550455 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -3800467336962686104, guid: ef8b5f8817c235646a124430ba1102f0,
@@ -783,6 +777,12 @@ GameObject:
 --- !u!4 &4221524069663892741 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -4216859302048453862, guid: ef8b5f8817c235646a124430ba1102f0,
+    type: 3}
+  m_PrefabInstance: {fileID: 9218702448930737695}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &922820241137145622 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: -927199367670048503, guid: ef8b5f8817c235646a124430ba1102f0,
     type: 3}
   m_PrefabInstance: {fileID: 9218702448930737695}
   m_PrefabAsset: {fileID: 0}
