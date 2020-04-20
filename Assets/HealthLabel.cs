@@ -18,7 +18,7 @@ public class HealthLabel : MonoBehaviour {
         if (tower != null) {
             if (curTextNumber != tower.health) {
                 curTextNumber = tower.health;
-                text.text = "❤️ Helth: "+ curTextNumber.ToString();
+                text.text = curTextNumber.ToString();
             }
         }
     }

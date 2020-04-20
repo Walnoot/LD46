@@ -77,7 +77,7 @@ public class SpawnSystem : MonoBehaviour
     		case (8)  : { spawnsLeft = 17; break; }
     		case (9)  : { spawnsLeft = 18; break; }
     		case (10) : { spawnsLeft = 19; break; }
-    		default : {	spawnsLeft = (int) Math.Pow(1.6, wave); break;};
+    		default : {	spawnsLeft = wave + 9; break;};
     	}
 
     	while(spawnsLeft > 0) {

@@ -18,7 +18,7 @@ public class PointLabel : MonoBehaviour {
         if (car != null) {
             if (curTextPoints != car.Points) {
                 curTextPoints = car.Points;
-                text.text = " ♦ Poin: " + curTextPoints.ToString();
+                text.text = curTextPoints.ToString();
             }
         }
     }

@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class WaveLabel : MonoBehaviour {
     private Text text;
+	public bool ars;
 
     // private int curText = -999;
     private SpawnSystem spawnSystem;
@@ -19,9 +20,10 @@ public class WaveLabel : MonoBehaviour {
             var wave = spawnSystem.wave;
             var left = spawnSystem.getCountMobsAlive();
             var total = spawnSystem.getCountMobsTotal();
-            var newText = " ~ Wave: " + wave 
-                      + "\n < Left: " + left + " / " +total;
-            text.text = newText;
+			var newText = wave.ToString();
+			if (ars)
+				newText = left + " / " +total;
+			text.text = newText;
         }
     }
 }
