@@ -40,6 +40,7 @@ public class SpawnSystem : MonoBehaviour
         }
 	    bool done = getCountMobsAlive() == 0;
 
+		/**
 	    if (done) {
 		    timerBetweenWaves -= Time.deltaTime;
 
@@ -48,7 +49,7 @@ public class SpawnSystem : MonoBehaviour
 		    }
 	    } else {
 		    timerBetweenWaves = MIN_TIME_BETWEEN_WAVE;
-	    }
+	    }*/
     }
 
     void killAllMobs() {
@@ -59,23 +60,23 @@ public class SpawnSystem : MonoBehaviour
         }
     }
 
-    void startNewWave(){
+    public void startNewWave(){
         wave ++;
         int spawnsLeft = 0;
         var mobs = GameObject.FindObjectsOfType<Mob>();
-        killAllMobs();
+        //killAllMobs();
         switch(wave) {
     		case (0) :  { spawnsLeft = 0; break; }
-    		case (1)  : { spawnsLeft = 10; break; }
-    		case (2)  : { spawnsLeft = 20; break; }
-    		case (3)  : { spawnsLeft = 30; break; }
-    		case (4)  : { spawnsLeft = 40; break; }
-    		case (5)  : { spawnsLeft = 50; break; }
-    		case (6)  : { spawnsLeft = 60; break; }
-    		case (7)  : { spawnsLeft = 70; break; }
-    		case (8)  : { spawnsLeft = 80; break; }
-    		case (9)  : { spawnsLeft = 90; break; }
-    		case (10) : { spawnsLeft = 100; break; }
+    		case (1)  : { spawnsLeft = 3; break; }
+    		case (2)  : { spawnsLeft = 6; break; }
+    		case (3)  : { spawnsLeft = 9; break; }
+    		case (4)  : { spawnsLeft = 10; break; }
+    		case (5)  : { spawnsLeft = 11; break; }
+    		case (6)  : { spawnsLeft = 12; break; }
+    		case (7)  : { spawnsLeft = 13; break; }
+    		case (8)  : { spawnsLeft = 14; break; }
+    		case (9)  : { spawnsLeft = 15; break; }
+    		case (10) : { spawnsLeft = 16; break; }
     		default : {	spawnsLeft = (int) Math.Pow(1.6, wave); break;};
     	}
 
@@ -87,6 +88,7 @@ public class SpawnSystem : MonoBehaviour
     private int spawnSome(int max) {
     	GameObject[] types;
     	switch(wave) {
+			/*
     		case (1)  : {types = new GameObject[] {mobBasic, mobFarWanderer}; break;}
     		case (2)  : {types = new GameObject[] {mobBasic, mobFarWanderer, mobDodge }; break;}
     		case (3)  : {types = new GameObject[] {mobBasic, mobFarWanderer, mobDodge }; break;}
@@ -96,13 +98,13 @@ public class SpawnSystem : MonoBehaviour
     		case (7)  : {types = new GameObject[] {mobBasic, mobFarWanderer, mobDodge, mobFastWanderer}; break;}
     		case (8)  : {types = new GameObject[] {mobFastWanderer}; break;}
     		case (9)  : {types = new GameObject[] {mobDodge}; break;}
-    		case (10) : {types = new GameObject[] {mobBasic, mobFarWanderer, mobDodge, mobFastWanderer}; break;}
-    		default : {types = new GameObject[] {mobBasic, mobFarWanderer, mobDodge, mobFastWanderer}; break;}
+    		case (10) : {types = new GameObject[] {mobBasic, mobFarWanderer, mobDodge, mobFastWanderer}; break;}*/
+    		default : {types = new GameObject[] {mobDodge}; break;}
     	}
 	    var spawner = spawners[UnityEngine.Random.Range(0, spawners.Length)];
 	    var mobType = types[UnityEngine.Random.Range(0, types.Length)];
-	    int rows = UnityEngine.Random.Range(2,6);
-	    int columns = UnityEngine.Random.Range(2,6);
+	    int rows = UnityEngine.Random.Range(1,3);
+	    int columns = UnityEngine.Random.Range(1,3);
 	    return spawner.spawnRectangle(rows, columns, max, mobType);
     }
 

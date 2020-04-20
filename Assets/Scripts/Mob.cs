@@ -42,6 +42,7 @@ public class Mob : MonoBehaviour
 	public GameObject deathEffect;
 
 	public GameObject PointPrefab, killSoundPrefab;
+	public Animator animator;
 
     public float speed = 100.0f;
     public float rotationSpeed = 1f;
@@ -104,6 +105,7 @@ public class Mob : MonoBehaviour
     			if(tryDodgeTransition()){
 					break;
 				}
+				this.animator.SetBool("Dodging", false);
     			if(tower != null) {
 					float dst = Vector3.Distance(tower.transform.position, body.position);
 					if(dst <= distanceAttack) {
@@ -134,7 +136,9 @@ public class Mob : MonoBehaviour
 			case(State.Igniting) : {
 				if(tryDodgeTransition()){
 					break;
-				}
+				};
+				this.animator.SetBool("Dodging", false);
+				this.animator.SetBool("Igniting", true);
 				RadioTower towerComponent = tower.GetComponent<RadioTower>();
 				if(towerComponent == null){
 					break;
@@ -170,6 +174,8 @@ public class Mob : MonoBehaviour
 		if(this.dodgeObject != null) {
 			this.dodgeTimeRemaining = dodgeTime;
 			this.state = State.Dodge;
+			this.animator.SetBool("Igniting", false);
+			this.animator.SetBool("Dodging", true);
 			return true;
 		}
 		return false;
@@ -201,6 +207,11 @@ public class Mob : MonoBehaviour
         {
         	die();
         }
+
+		if (collision.gameObject.CompareTag("Boundary"))
+		{
+			Destroy(this.gameObject);
+		}
     }
 
     bool isOutOfBounds () {
@@ -217,7 +228,7 @@ public class Mob : MonoBehaviour
 			    Instantiate(deathEffect, transform.position, deathEffect.transform.rotation);
 		    }
         
-		    Destroy(gameObject, 60f);
+		    Destroy(gameObject, 2f);
 
 		    int numPoints = Random.Range(1, 3);
 		    for (int i = 0; i < numPoints; i++) {

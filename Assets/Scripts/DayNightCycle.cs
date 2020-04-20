@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DayNightCycle : MonoBehaviour
 {
@@ -10,11 +11,19 @@ public class DayNightCycle : MonoBehaviour
 	public float currentTimeOfDay = 0f;
 	public float transitionTime = 0.05f;
 	private float sunInitialIntensity;
+	public GameObject lights;
+	public GameObject spawner;
+	private SpawnSystem spawn;
+	public GameObject timer;
+	private Text timerText;
 
     // Start is called before the first frame update
     void Start()
     {
 		sunInitialIntensity = sun.intensity;
+		spawn = spawner.GetComponent<SpawnSystem>();
+		spawn.startNewWave();
+		timerText = timer.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -25,8 +34,11 @@ public class DayNightCycle : MonoBehaviour
 
 		if (currentTimeOfDay >= 1)
 		{
+			spawn.startNewWave();
 			currentTimeOfDay = 0;
 		}
+
+		timerText.text = "Only " + Mathf.Round((24 - (currentTimeOfDay * 24))) + " hours untill new weirdos arrive. Protect your 5G tower!";
 	}
 
 	void UpdateSun()
@@ -40,6 +52,7 @@ public class DayNightCycle : MonoBehaviour
 		}
 		else if (currentTimeOfDay <= 0.25f)
 		{
+			this.lights.SetActive(false);
 			intensityMultiplier = Mathf.Clamp01((currentTimeOfDay - (0.25f - transitionTime)) * (1 / transitionTime));
 		}
 		else if (currentTimeOfDay >= 0.73f)
@@ -47,5 +60,12 @@ public class DayNightCycle : MonoBehaviour
 			intensityMultiplier = Mathf.Clamp01(1 - ((currentTimeOfDay - 0.73f) * (1 / transitionTime)));
 		}
 		sun.intensity = sunInitialIntensity * intensityMultiplier;
+		if (sunInitialIntensity * intensityMultiplier > 0.25f)
+		{
+			this.lights.SetActive(false);
+		} else
+		{
+			this.lights.SetActive(true);
+		}
 	}
 }
