@@ -16,29 +16,38 @@ public class DayNightCycle : MonoBehaviour
 	private SpawnSystem spawn;
 	public GameObject timer;
 	private Text timerText;
+	public bool active;
 
     // Start is called before the first frame update
     void Start()
     {
 		sunInitialIntensity = sun.intensity;
 		spawn = spawner.GetComponent<SpawnSystem>();
-		spawn.startNewWave();
 		timerText = timer.GetComponent<Text>();
+		active = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-		UpdateSun();
-		currentTimeOfDay += (Time.deltaTime / secondsPerDay) * timeStep;
-
-		if (currentTimeOfDay >= 1)
+		if (active)
 		{
-			spawn.startNewWave();
-			currentTimeOfDay = 0;
-		}
+			UpdateSun();
+			currentTimeOfDay += (Time.deltaTime / secondsPerDay) * timeStep;
 
-		timerText.text = "Only " + Mathf.Round((24 - (currentTimeOfDay * 24))) + " hours untill new weirdos arrive. Protect your 5G tower!";
+			if (currentTimeOfDay >= 1)
+			{
+				spawn.startNewWave();
+				currentTimeOfDay = 0;
+			}
+
+			timerText.text = "Only " + Mathf.Round((24 - (currentTimeOfDay * 24))) + " hours untill new weirdos arrive. Protect your 5G tower!";
+		}
+	}
+
+	public void doSpawn()
+	{
+		spawn.startNewWave();
 	}
 
 	void UpdateSun()

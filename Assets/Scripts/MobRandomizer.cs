@@ -13,7 +13,6 @@ public class MobRandomizer : MonoBehaviour
 	// Start is called before the first frame update
 	void Start()
     {
-		Debug.Log("Going to randomize a mob");
 		List<GameObject> hair = new List<GameObject>() {
 			hair1, hair2, hair3, hair4
 		};
