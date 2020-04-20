@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fe04471cbc24fab60b74bd7fde2a54c2, type: 3}
   m_Name: Performance Engine
   m_EditorClassIdentifier: 
-  Price: 50
+  Price: 30
   motorTorque: 12000
   targetSpeed: 7
   boostInterval: 0

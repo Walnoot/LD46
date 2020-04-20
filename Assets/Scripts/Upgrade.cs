@@ -17,4 +17,8 @@ public class Upgrade : ScriptableObject {
     public float steerAngle;
 
     public float gripMultiplier;
+
+    public int heal;
+
+    public bool isWarModel;
 }

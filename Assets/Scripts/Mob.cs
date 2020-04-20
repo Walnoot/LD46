@@ -1,6 +1,8 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class Mob : MonoBehaviour
 {
@@ -123,9 +125,18 @@ public class Mob : MonoBehaviour
     				targetDir.x = -targetDir.x;
     				targetDir.z = -targetDir.z;
     				targetDir.y = 0;
-    				Quaternion targetRotation = Quaternion.LookRotation(targetDir);
+                    targetDir.Normalize();
+
+                    Vector3 mapEdge = transform.position;
+                    mapEdge.y = 0f;
+                    mapEdge.Normalize();
+
+                    // blend between running from car and towards map edge
+                    Vector3 finalTarget = Vector3.Lerp(targetDir, mapEdge, .5f);
+    				
+    				Quaternion targetRotation = Quaternion.LookRotation(finalTarget);
     				body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed * dodgeRotationSpeedMultiplier);
-					body.velocity = transform.forward * speed * dodgeSpeedMultiplier * Time.fixedDeltaTime;	
+					body.velocity = transform.forward * (speed * dodgeSpeedMultiplier * Time.fixedDeltaTime);
     			}else{
     				this.dodgeTimeoutRemaining = dodgeTimeout;
     				this.dodgeObject = null;
@@ -208,10 +219,26 @@ public class Mob : MonoBehaviour
         	die();
         }
 
-		if (collision.gameObject.CompareTag("Boundary"))
-		{
-			Destroy(this.gameObject);
-		}
+		// if (collision.gameObject.CompareTag("Boundary"))
+		// {
+		// 	Destroy(this.gameObject);
+		// }
+    }
+
+    private void OnTriggerExit(Collider other) {
+	    if (other.gameObject.CompareTag("Boundary")) {
+		    Destroy(this.gameObject);
+
+		    int numPoints = 2;
+		    for (int i = 0; i < numPoints; i++) {
+			    var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
+
+			    float r = 1f;
+			    point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
+            
+			    Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
+		    }
+	    }
     }
 
     bool isOutOfBounds () {
@@ -230,15 +257,7 @@ public class Mob : MonoBehaviour
         
 		    Destroy(gameObject, 2f);
 
-		    int numPoints = Random.Range(1, 3);
-		    for (int i = 0; i < numPoints; i++) {
-			    var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
-
-			    float r = 1f;
-			    point.GetComponent<Rigidbody>().velocity = new Vector3(Random.Range(-r, r), 2f, Random.Range(-r, r));
-            
-			    Physics.IgnoreCollision(point.GetComponent<Collider>(), GetComponent<Collider>());
-		    }
+		    
         
 		    if (killSoundPrefab != null) {
 			    var sound = Instantiate(killSoundPrefab, transform.position, Quaternion.identity);

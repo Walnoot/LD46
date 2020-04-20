@@ -24,6 +24,8 @@ public class CarController : MonoBehaviour
 
     [HideInInspector]
     public bool isBoosting;
+
+    public GameObject normalModel, warModel;
     
     private Rigidbody rb;
     
@@ -167,6 +169,17 @@ public class CarController : MonoBehaviour
                     sideFriction.stiffness = upgrade.gripMultiplier;
                     wheel.sidewaysFriction = sideFriction;
                 }
+            }
+
+            if (upgrade.heal > 0) {
+                foreach (var tower in FindObjectsOfType<RadioTower>()) {
+                    tower.health += upgrade.heal;
+                }
+            }
+
+            if (upgrade.isWarModel) {
+                normalModel.SetActive(false);
+                warModel.SetActive(true);
             }
             
             return true;
