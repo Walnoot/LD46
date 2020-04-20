@@ -31,6 +31,6 @@ public class RadioTower : MonoBehaviour
     }
 
     void dead(){
-    	Destroy(this);
-    }
+		health = 0;
+	}
 }
