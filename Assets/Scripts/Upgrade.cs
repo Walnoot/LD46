@@ -19,4 +19,6 @@ public class Upgrade : ScriptableObject {
     public float gripMultiplier;
 
     public int heal;
+
+    public bool isWarModel;
 }
