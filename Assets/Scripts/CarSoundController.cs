@@ -16,17 +16,25 @@ public class CarSoundController : MonoBehaviour {
     private float blend;
 
     private Rigidbody rb;
-
+    private CarController car;
+    
     private float brakeVolume;
     
     private void Start() {
         rb = GetComponentInParent<Rigidbody>();
+        car = GetComponentInParent<CarController>();
     }
 
     void Update() {
+        float ct = car.isBoosting ? changeTime / 2f : changeTime;
+        
         float target = Mathf.Abs(wheel.motorTorque / pitchOverTorque);
+        if (car.isBoosting) {
+            target += .5f;
+        }
+        
         float diff = target - blend;
-        float dt = Time.deltaTime / changeTime;
+        float dt = Time.deltaTime / ct;
         blend += Mathf.Clamp(diff, -dt, dt);
 
         engineAudio.pitch = idlePitch + blend;

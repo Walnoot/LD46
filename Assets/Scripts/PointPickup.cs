@@ -6,23 +6,14 @@ using UnityEngine;
 public class PointPickup : MonoBehaviour {
     public GameObject pickupEffect;
     
-    private float startTime;
+    private void OnTriggerEnter(Collider c) {
+        var controller = c.gameObject.GetComponent<CarController>();
+        if (controller != null) {
+            controller.Points += 1;
+            Destroy(gameObject);
 
-    void Start() {
-        startTime = Time.time;
-    }
-
-    private void OnCollisionEnter(Collision c) {
-        float aliveTime = Time.time - startTime;
-        if (aliveTime > .5f) {
-            var controller = c.gameObject.GetComponent<CarController>();
-            if (controller != null) {
-                controller.Points += 1;
-                Destroy(gameObject);
-
-                if (pickupEffect != null) {
-                    Instantiate(pickupEffect, transform.position, pickupEffect.transform.rotation);
-                }
+            if (pickupEffect != null) {
+                Instantiate(pickupEffect, transform.position, pickupEffect.transform.rotation);
             }
         }
     }

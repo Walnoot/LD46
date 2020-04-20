@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4978529893882808997}
   - component: {fileID: 455289249338402455}
   - component: {fileID: 3627098985371922749}
+  - component: {fileID: 6258592471090363555}
   m_Layer: 0
   m_Name: Point Pickup
   m_TagString: Untagged
@@ -125,3 +126,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   pickupEffect: {fileID: 888844016522056901, guid: a62f14108701ecc2fa680be2768f5c7b,
     type: 3}
+--- !u!135 &6258592471090363555
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8524425848742108125}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
