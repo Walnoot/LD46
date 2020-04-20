@@ -183,11 +183,14 @@ public class Mob : MonoBehaviour
     bool tryDodgeTransition () {
     	this.dodgeObject = getDodgeableObject();
 		if(this.dodgeObject != null) {
-			this.dodgeTimeRemaining = dodgeTime;
-			this.state = State.Dodge;
-			this.animator.SetBool("Igniting", false);
-			this.animator.SetBool("Dodging", true);
-			return true;
+			var rb = dodgeObject.GetComponent<Rigidbody>();
+			if (rb == null || rb.velocity.magnitude > 10f) {
+				this.dodgeTimeRemaining = dodgeTime;
+				this.state = State.Dodge;
+				this.animator.SetBool("Igniting", false);
+				this.animator.SetBool("Dodging", true);
+				return true;
+			}
 		}
 		return false;
     }
