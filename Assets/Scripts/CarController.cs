@@ -168,6 +168,12 @@ public class CarController : MonoBehaviour
                     wheel.sidewaysFriction = sideFriction;
                 }
             }
+
+            if (upgrade.heal > 0) {
+                foreach (var tower in FindObjectsOfType<RadioTower>()) {
+                    tower.health += upgrade.heal;
+                }
+            }
             
             return true;
         }

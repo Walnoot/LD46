@@ -228,8 +228,8 @@ public class Mob : MonoBehaviour
     private void OnTriggerExit(Collider other) {
 	    if (other.gameObject.CompareTag("Boundary")) {
 		    Destroy(this.gameObject);
-		    
-		    int numPoints = Random.Range(1, 3);
+
+		    int numPoints = 2;
 		    for (int i = 0; i < numPoints; i++) {
 			    var point =Instantiate(PointPrefab, transform.position, Quaternion.identity);
 

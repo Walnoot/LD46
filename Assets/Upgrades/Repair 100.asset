@@ -10,12 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe04471cbc24fab60b74bd7fde2a54c2, type: 3}
-  m_Name: Tuned Engine
+  m_Name: Repair 100
   m_EditorClassIdentifier: 
-  Price: 5
-  motorTorque: 10000
-  targetSpeed: 5
+  Price: 50
+  motorTorque: 0
+  targetSpeed: 0
   boostInterval: 0
   boostSpeed: 0
   steerAngle: 0
   gripMultiplier: 0
+  heal: 100
