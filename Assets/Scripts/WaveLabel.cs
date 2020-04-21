@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class WaveLabel : MonoBehaviour {
     private Text text;
 	public bool ars;
+	public bool beep;
 
     // private int curText = -999;
     private SpawnSystem spawnSystem;
@@ -23,6 +24,8 @@ public class WaveLabel : MonoBehaviour {
 			var newText = wave.ToString();
 			if (ars)
 				newText = left + " / " +total;
+			if (beep)
+				newText = "You survived " + wave + " days!";
 			text.text = newText;
         }
     }
