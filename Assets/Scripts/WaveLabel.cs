@@ -25,7 +25,7 @@ public class WaveLabel : MonoBehaviour {
 			if (ars)
 				newText = left + " / " +total;
 			if (beep)
-				newText = "You survived " + wave + " days!";
+				newText = "You kept your 5G tower alive for " + wave + " days!";
 			text.text = newText;
         }
     }
