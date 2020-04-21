@@ -65,7 +65,7 @@ public class Mob : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
     	if(isOutOfBounds()){
     		Debug.Log("Mob IsOutOfBounds." + body.position);
@@ -90,7 +90,7 @@ public class Mob : MonoBehaviour
 					break;
 				}
 				if(wanderGoal != null) {
-					wanderTimeleft -= Time.deltaTime;
+					wanderTimeleft -= Time.fixedDeltaTime;
 					if(wanderTimeleft <= 0){
 						state = State.Idle;
 						break;
@@ -119,7 +119,7 @@ public class Mob : MonoBehaviour
     			break;
     		} case(State.Dodge) : {
     			if(dodgeTimeRemaining > 0){
-    				dodgeTimeRemaining -= Time.deltaTime;
+    				dodgeTimeRemaining -= Time.fixedDeltaTime;
     				Vector3 targetDir = dodgeObject.transform.position - body.position;
     				// Flip 
     				targetDir.x = -targetDir.x;
@@ -135,7 +135,7 @@ public class Mob : MonoBehaviour
                     Vector3 finalTarget = Vector3.Lerp(targetDir, mapEdge, .5f);
     				
     				Quaternion targetRotation = Quaternion.LookRotation(finalTarget);
-    				body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed * dodgeRotationSpeedMultiplier);
+    				body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed * dodgeRotationSpeedMultiplier);
 					body.velocity = transform.forward * (speed * dodgeSpeedMultiplier * Time.fixedDeltaTime);
     			}else{
     				this.dodgeTimeoutRemaining = dodgeTimeout;
@@ -155,7 +155,7 @@ public class Mob : MonoBehaviour
 					break;
 				}
 
-				attackTimeoutRemaining -= Time.deltaTime;
+				attackTimeoutRemaining -= Time.fixedDeltaTime;
 				if(attackTimeoutRemaining <= 0){
 					towerComponent.hit(attackDamage);
 					attackTimeoutRemaining = attackTimeout;
@@ -174,7 +174,7 @@ public class Mob : MonoBehaviour
     	Vector3 targetDir = goal - body.position;
 		targetDir.y = 0;
 		Quaternion targetRotation = Quaternion.LookRotation(targetDir);
-		body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+		body.rotation = Quaternion.Slerp(body.rotation, targetRotation, Time.fixedDeltaTime * rotationSpeed);
 		var vel = transform.forward * speed * Time.fixedDeltaTime;
 		vel.y = body.velocity.y;
 		body.velocity = vel;	
@@ -198,7 +198,7 @@ public class Mob : MonoBehaviour
     GameObject getDodgeableObject() {
     	if(hasCapabilityDodge) {
     		if(dodgeTimeoutRemaining > 0){
-    			dodgeTimeoutRemaining -= Time.deltaTime;
+    			dodgeTimeoutRemaining -= Time.fixedDeltaTime;
     			return null;
     		}
     		if(dodgeObject != null){
